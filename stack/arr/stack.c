@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define SIZE 4
 
 int top = -1, inp_array[SIZE];
+bool isOverflow();
+bool isUnderflow();
 void push();
 void pop();
 void show();
@@ -14,6 +17,7 @@ int main()
 
     while (1)
     {
+    menu:
         printf("\nPerform operations on the stack:");
         printf("\n1.Push the element\n2.Pop the element\n3.Show\n4.End");
         printf("\n\nEnter the choice: ");
@@ -32,19 +36,36 @@ int main()
             break;
         case 4:
             exit(0);
+            break;
         default:
             printf("\nInvalid choice!!");
+            choice = 0;
+            goto menu;
         }
     }
 
     return 0;
 }
 
+bool isOverflow()
+{
+    if (top == SIZE - 1)
+        return true;
+    return false;
+}
+
+bool isUnderflow()
+{
+    if (top == -1)
+        return true;
+    return false;
+}
+
 void push()
 {
     int x;
 
-    if (top == SIZE - 1)
+    if (isOverflow())
     {
         printf("\nOverflow!!\n");
     }
@@ -59,7 +80,7 @@ void push()
 
 void pop()
 {
-    if (top == -1)
+    if (isUnderflow())
     {
         printf("\nUnderflow!!\n");
     }
@@ -72,7 +93,7 @@ void pop()
 
 void show()
 {
-    if (top == -1)
+    if (isUnderflow())
     {
         printf("\nUnderflow!!\n");
     }
@@ -80,6 +101,10 @@ void show()
     {
         printf("\nElements present in the stack: \n");
         for (int i = top; i >= 0; --i)
-            printf("%d\n", inp_array[i]);
+        {
+            printf("| %d |\n", inp_array[i]);
+            if (i == 0)
+                printf(" ⎻⎻⎻ ");
+        }
     }
 }
